@@ -216,7 +216,12 @@
                     </div>
                 </div>
                 
-                <div aria-selected="false" class="experience-tab flex items-center p-4 rounded-lg cursor-pointer transition-all duration-300 bg-surface-container-low border border-outline-variant/20 text-on-surface-variant hover:bg-surface-container" data-target="role-sezzle" role="button" tabindex="0">
+                <div aria-selected="false" 
+                    id="sezzle-tab"
+                    class="experience-tab flex items-center p-4 rounded-lg cursor-pointer transition-all duration-300 bg-surface-container-low border border-outline-variant/20 text-on-surface-variant hover:bg-surface-container" 
+                    data-target="role-sezzle" 
+                    role="button" 
+                    tabindex="0">
                     <div class="flex-shrink-0 w-14 h-14 rounded-full overflow-hidden mr-4 bg-white">
                         <img alt="Sezzle" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpa-c9EBHGS8wd5Jesz1SLTe3HJ9LV68Spd0GEvird4X6ncuMe5GugJFp51M5uWdgpAXlNAFbXrJT9tj0VxHcT7Ve4U2b2SCT3OPKJek2d-T-OAB6Nw3peDq5UwVXesyfNOoOYvS8yPQeA61AWC5KE3_6y8S0SRYFFS0P9BppY0CKS1pAvBfahrxIUfPT29-MVRPaGSlVAx0KVbtsgaLulsS1biJ38N-hW7exW4ClLpKHYcK_FKSe0YppkFe-sbwC45Nqf9dtOdYw">
                     </div>
@@ -266,7 +271,7 @@
             <h3 class="text-headline-md text-primary font-bold">Sezzle</h3>
             <p class="text-on-surface-variant font-mono text-xs uppercase tracking-wider mt-0.5">Remote</p>
         </div>
-        <span class="text-[11px] font-mono text-secondary border border-secondary/20 bg-secondary/5 px-2.5 py-1 rounded whitespace-nowrap align-middle self-start select-none">May 2021 — Feb 2026 (2 Promotions)</span>
+        <span class="text-[11px] font-mono text-secondary border border-secondary/20 bg-secondary/5 px-2.5 py-1 rounded whitespace-nowrap align-middle self-start select-none">Oct 2022 — Feb 2026 (2 Promotions)</span>
     </div>
 
     <div class="relative pl-6 border-l border-outline-variant/40 ml-2.5 space-y-8 mt-4">
@@ -501,34 +506,39 @@
     document.querySelectorAll('.experience-tab').forEach(tab => {
         tab.addEventListener('click', () => {
             document.querySelectorAll('.experience-tab').forEach(t => {
+                // Reset to inactive state
                 t.setAttribute('aria-selected', 'false');
                 t.className = "experience-tab flex items-center p-4 rounded-lg cursor-pointer transition-all duration-300 bg-surface-container-low border border-outline-variant/20 text-on-surface-variant hover:bg-surface-container";
                 
+                // Reset subtitle color
                 const sub = t.querySelector('.tab-subtitle');
                 if (sub) {
                     sub.classList.remove('text-on-tertiary/80');
-                    sub.classList.add('text-secondary');
+                    
+                    // Logic: If index is NOT 1 (Sezzle), return to Orange (secondary). 
+                    // If index IS 1 (Sezzle), return to Green (primary).
+                    const index = Array.from(document.querySelectorAll('.experience-tab')).indexOf(t);
+                    sub.classList.add(index !== 1 ? 'text-secondary' : 'text-primary');
                 }
             });
             
+            // Set active state
             tab.setAttribute('aria-selected', 'true');
             tab.className = "experience-tab flex items-center p-4 rounded-lg cursor-pointer transition-all duration-300 bg-tertiary border border-tertiary text-on-tertiary";
             
             const activeSub = tab.querySelector('.tab-subtitle');
             if (activeSub) {
-                activeSub.classList.remove('text-secondary');
+                activeSub.classList.remove('text-secondary', 'text-primary');
                 activeSub.classList.add('text-on-tertiary/80');
             }
             
+            // Handle content display
             const target = tab.getAttribute('data-target');
             document.querySelectorAll('.role-content').forEach(content => {
-                if(content.id === target) {
-                    content.classList.remove('hidden', 'opacity-0');
-                    content.classList.add('block', 'opacity-100');
-                } else {
-                    content.classList.remove('block', 'opacity-100');
-                    content.classList.add('hidden', 'opacity-0');
-                }
+                content.classList.toggle('hidden', content.id !== target);
+                content.classList.toggle('block', content.id === target);
+                content.classList.toggle('opacity-0', content.id !== target);
+                content.classList.toggle('opacity-100', content.id === target);
             });
         });
     });

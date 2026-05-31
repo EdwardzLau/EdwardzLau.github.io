@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Edward Lau | Fraud Risk & Decision Science</title>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@450;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,FILL@0..1&display=swap" rel="stylesheet">
+    <script data-purpose="tailwind-configuration" id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "on-background": "#dae2fd",
+                "inverse-surface": "#dae2fd",
+                "background": "#0b1326",
+                "on-secondary": "#472a00",
+                "secondary": "#ffb95f",
+                "on-tertiary": "#00354a",
+                "on-surface-variant": "#bbcabf",
+                "outline": "#86948a",
+                "tertiary-fixed-dim": "#7bd0ff",
+                "primary-container": "#10b981",
+                "on-secondary-fixed": "#2a1700",
+                "surface-container-lowest": "#060e20",
+                "surface-dim": "#0b1326",
+                "error": "#ffb4ab",
+                "tertiary-container": "#19aee8",
+                "on-primary": "#003824",
+                "tertiary-fixed": "#c4e7ff",
+                "on-error": "#690005",
+                "tertiary": "#7bd0ff",
+                "on-error-container": "#ffdad6",
+                "surface-variant": "#2d3449",
+                "surface-container": "#171f33",
+                "on-primary-fixed-variant": "#005236",
+                "outline-variant": "#3c4a42",
+                "on-secondary-fixed-variant": "#653e00",
+                "primary-fixed-dim": "#4edea3",
+                "surface": "#0b1326",
+                "on-secondary-container": "#5b3800",
+                "secondary-fixed": "#ffddb8",
+                "surface-tint": "#4edea3",
+                "error-container": "#93000a",
+                "primary": "#4edea3",
+                "on-primary-fixed": "#002113",
+                "on-tertiary-fixed-variant": "#004c69",
+                "secondary-fixed-dim": "#ffb95f",
+                "inverse-primary": "#006c49",
+                "surface-container-highest": "#2d3449",
+                "on-tertiary-fixed": "#001e2c",
+                "primary-fixed": "#6ffbbe",
+                "surface-container-low": "#131b2e",
+                "on-surface": "#dae2fd",
+                "on-primary-container": "#00422b",
+                "inverse-on-surface": "#283044",
+                "secondary-container": "#ee9800",
+                "surface-bright": "#31394d",
+                "on-tertiary-container": "#003e55",
+                "surface-container-high": "#222a3d"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+              },
+              "spacing": {
+                "xs": "4px",
+                "max-width": "1200px",
+                "md": "16px",
+                "margin-mobile": "16px",
+                "sm": "8px",
+                "2xl": "64px",
+                "base": "4px",
+                "xl": "40px",
+                "gutter": "24px",
+                "lg": "24px",
+                "margin-desktop": "48px"
+              },
+              "fontFamily": {
+                "display-lg": ["Inter"],
+                "label-caps": ["JetBrains Mono"],
+                "headline-md": ["Inter"],
+                "display-lg-mobile": ["Inter"],
+                "code-sm": ["JetBrains Mono"],
+                "body-sm": ["Inter"],
+                "body-base": ["Inter"]
+              },
+              "fontSize": {
+                "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                "headline-md": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                "code-sm": ["13px", {"lineHeight": "1.6", "fontWeight": "450"}],
+                "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                "body-base": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+    <style data-purpose="visual-effects">
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fraud-glow-amber {
+          box-shadow: 0 0 20px 0 rgba(238, 152, 0, 0.15);
+        }
+        .fraud-glow-primary {
+          box-shadow: 0 0 20px 0 rgba(78, 222, 163, 0.15);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0b1326; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    </style>
+    </head>
+
+<body class="bg-background text-on-background selection:bg-primary selection:text-on-primary font-body-base">
+
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-margin-desktop h-16 bg-background/80 backdrop-blur-md border-b border-outline-variant flex-row">
+    <div class="flex items-center gap-4">
+        <span class="text-headline-md font-bold tracking-tighter text-primary">Fremont, CA</span>
+        <div class="hidden md:block h-6 w-px bg-outline-variant"></div>
+        <span class="hidden md:block text-label-caps text-on-surface-variant">Fraud & Repayment Risk Data Scientist</span>
+    </div>
+    <nav class="hidden lg:flex items-center gap-8">
+        <a class="text-on-surface-variant font-label-caps hover:text-primary transition-colors duration-200" href="#experience">WORK</a>
+        <a class="text-on-surface-variant font-label-caps hover:text-primary transition-colors duration-200" href="#stack">SKILLS</a>
+        <a class="text-on-surface-variant font-label-caps hover:text-primary transition-colors duration-200" href="#education">EDUCATION</a>
+        <a class="text-on-surface-variant font-label-caps hover:text-primary transition-colors duration-200" href="#certifications">CREDENTIALS</a>
+    </nav>
+</header>
+
+<main class="max-w-max-width mx-auto pt-16">
+    <section class="min-h-[80vh] flex flex-col md:flex-row items-center px-margin-mobile md:px-margin-desktop py-xl gap-xl">
+        <div class="flex-1 space-y-lg">
+            <h1 class="text-display-lg-mobile md:text-display-lg font-display-lg text-on-surface">Hi, I'm Edward! A data scientist with <span class="text-primary">3+ years</span> of experience in the <span class="text-primary">FinTech</span> space, specializing in <span class="text-primary">fraud</span> and repayment risk.</h1>
+            <p class="text-body-base text-on-surface-variant max-w-xl">Skilled in Python + SQL, rule design, and workflow automation. Proven track-record of protecting revenue by translating data into actionable strategies that neutralize emerging threats and mitigate financial losses.</p>
+            <div class="flex gap-4">
+            </div>
+        </div>
+        <div class="flex-1 w-full relative">
+    <div class="absolute -inset-1 bg-gradient-to-r from-primary/15 to-secondary/15 rounded-xl blur-xl opacity-60 md:max-w-[520px] md:ml-auto"></div>
+
+    <div class="w-full aspect-[4/3] min-h-[420px] md:min-h-[460px] md:max-w-[520px] md:ml-auto rounded-lg border border-outline-variant bg-[#090f1d] overflow-hidden shadow-2xl relative font-mono text-[12px] leading-relaxed select-none">
+        
+        <div class="w-full h-9 bg-surface-container-low border-b border-outline-variant/50 px-4 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
+                <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
+                <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
+                <span class="text-on-surface-variant/60 font-medium text-[11px] ml-2 flex items-center gap-1.5">
+                    <span class="text-primary text-[14px] font-sans"></span> transaction_eda.py
+                </span>
+            </div>
+            <div class="text-on-surface-variant/30 text-[10px] tracking-widest uppercase">PYTHON 3.11</div>
+        </div>
+
+        <div class="p-4 grid grid-cols-[24px_1fr] gap-2.5 text-on-surface-variant/80 overflow-hidden h-[calc(100%-36px)]">
+            <div class="text-on-surface-variant/20 text-right space-y-0.5 select-none font-light pr-2 border-r border-outline-variant/10 text-[11px]">
+                <div>01</div><div>02</div><div>03</div><div>04</div><div>05</div><div>06</div><div>07</div><div>08</div><div>09</div><div>10</div><div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div><div>21</div><div>22</div>
+            </div>
+
+            <div class="space-y-0.5 whitespace-pre overflow-x-auto text-[11px] md:text-[11.5px]">
+                <div><span class="text-secondary font-bold">import</span> pandas <span class="text-secondary font-bold">as</span> pd</div>
+                <div><span class="text-secondary font-bold">import</span> numpy <span class="text-secondary font-bold">as</span> np</div>
+                <div><span class="text-secondary font-bold">import</span> databricks.sql <span class="text-secondary font-bold">as</span> dbsql</div>
+                <div></div>
+                <div>query = <span class="text-[#7bd0ff]">"""</span></div>
+                <div class="text-[#7bd0ff]">    SELECT user_id, device_id, amount, created_at</div>
+                <div class="text-[#7bd0ff]">    FROM fintech_ledger.transactions</div>
+                <div class="text-[#7bd0ff]">    WHERE status = 'APPROVED' AND created_at >= '2025-01-01'</div>
+                <div class="text-[#7bd0ff]">"""</span></div>
+                <div></div>
+                <div>with dbsql.connect(properties) <span class="text-secondary font-bold">as</span> conn:</div>
+                <div>    df = pd.read_sql(query, conn)</div>
+                <div></div>
+                <div class="text-on-surface-variant/30"># Normalize timeline features</div>
+                <div>df[<span class="text-[#7bd0ff]">"created_at"</span>] = pd.to_datetime(df[<span class="text-[#7bd0ff]">"created_at"</span>])</div>
+                <div>df = df.sort_values(<span class="text-[#7bd0ff]">"created_at"</span>)</div>
+                <div></div>
+                <div class="text-on-surface-variant/30"># Data integrity & high-level structure profiles</div>
+                <div>print(<span class="text-[#7bd0ff]">"DataFrame Info:"</span>, df.info())</div>
+                <div>print(df.isnull().sum())</div>
+                <div>print(<span class="text-[#7bd0ff]">f"Rows: {df.shape[0]}, Columns: {df.shape[1]}"</span>)</div>
+                <div>print(<span class="text-[#7bd0ff]">"Unique Counts:"</span>, df.nunique())</div>
+                <div>df.sample(<span class="text-secondary">10</span>)</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+    </section>
+
+    <section class="px-margin-mobile md:px-margin-desktop py-2xl border-t border-outline-variant" id="experience">
+        <div class="mb-xl">
+            <h2 class="text-headline-md text-on-surface border-l-4 border-primary pl-4 uppercase tracking-wider font-semibold">WORK EXPERIENCE</h2>
+        </div>
+        
+        <div class="flex flex-col md:flex-row gap-8 items-stretch">
+            <div class="w-full md:w-1/3 flex flex-col space-y-4">
+                <div aria-selected="true" class="experience-tab flex items-center p-4 rounded-lg cursor-pointer transition-all duration-300 bg-tertiary border border-tertiary text-on-tertiary" data-target="role-bill" role="button" tabindex="0">
+                    <div class="flex-shrink-0 w-14 h-14 rounded-full overflow-hidden mr-4 bg-white">
+                        <img alt="BILL" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD9ZmcGu8F8puVr-ET-phiybpJ9Oo2DcX-SIOM6nkeK_eIA3NjRrHt4y_roORLA8t9NJLCJZRkrLXFrMdzJsjzbmNVHXo8dS0esETm4Nzzv50JnP0nBvg-_0s3y0Un8LBoGkLcCFy7u24Du47ArrKOpi1tfOmlI-61q01M8FhFKC84bsQ-dPF7vSFd5_OTI20xNAB36uY47f72z4dGGslcT2r-2uxQz5d9zezFcs1U53dtmYr2PYISURMELzECsJBneaN8vZ96Hdk">
+                    </div>
+                    <div class="overflow-hidden text-ellipsis">
+                        <h3 class="tab-title text-[16px] md:text-[18px] font-bold truncate">Fraud Data Scientist</h3>
+                        <p class="tab-subtitle text-[14px] font-medium truncate text-on-tertiary/80">BILL</p>
+                    </div>
+                </div>
+                
+                <div aria-selected="false" class="experience-tab flex items-center p-4 rounded-lg cursor-pointer transition-all duration-300 bg-surface-container-low border border-outline-variant/20 text-on-surface-variant hover:bg-surface-container" data-target="role-sezzle" role="button" tabindex="0">
+                    <div class="flex-shrink-0 w-14 h-14 rounded-full overflow-hidden mr-4 bg-white">
+                        <img alt="Sezzle" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpa-c9EBHGS8wd5Jesz1SLTe3HJ9LV68Spd0GEvird4X6ncuMe5GugJFp51M5uWdgpAXlNAFbXrJT9tj0VxHcT7Ve4U2b2SCT3OPKJek2d-T-OAB6Nw3peDq5UwVXesyfNOoOYvS8yPQeA61AWC5KE3_6y8S0SRYFFS0P9BppY0CKS1pAvBfahrxIUfPT29-MVRPaGSlVAx0KVbtsgaLulsS1biJ38N-hW7exW4ClLpKHYcK_FKSe0YppkFe-sbwC45Nqf9dtOdYw">
+                    </div>
+                    <div class="overflow-hidden text-ellipsis">
+                        <h3 class="tab-title text-[16px] md:text-[18px] font-bold truncate">Fraud Analyst Roles</h3>
+                        <p class="tab-subtitle text-[14px] font-medium truncate text-primary">Sezzle</p>
+                    </div>
+                </div>
+                
+                <div aria-selected="false" class="experience-tab flex items-center p-4 rounded-lg cursor-pointer transition-all duration-300 bg-surface-container-low border border-outline-variant/20 text-on-surface-variant hover:bg-surface-container" data-target="role-braathe" role="button" tabindex="0">
+                    <div class="flex-shrink-0 w-14 h-14 rounded-full overflow-hidden mr-4 bg-white">
+                        <img alt="Braathe" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUeerszc0xQJOCJRzmtoIJExHpShdQ56sjpRktL8ksVDP3pqP89EBjAp2KdChPOqKzurjArHp17J1FEfE5DRinyRJzvoFEW7KqBg9aLyhUY1TxEQx1f8jQG5IxbVecfHx82CvYhN0ehXoXioe8hoQvF-sSfDGr-h0cxj20aA3LURRW60aCeAJNrFu1SV4yfOXZh4jEraPYUddWc4XXohx0Hxs5JmUPxt2IcNyelvhq4L_QHIwOMQsQTplMU9sF41yXRSvrJMjWZFw">
+                    </div>
+                    <div class="overflow-hidden text-ellipsis">
+                        <h3 class="tab-title text-[16px] md:text-[18px] font-bold truncate">Finance Intern</h3>
+                        <p class="tab-subtitle text-[14px] font-medium truncate text-secondary">Braathe Enterprises</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="w-full md:w-2/3 bg-surface-container border border-outline-variant p-lg rounded relative overflow-hidden flex flex-col justify-between">
+                <div class="w-full">
+ <!-- BILL SECTION (Updated to Company-First Layout) -->
+<div class="role-content space-y-6 transition-all duration-300 block opacity-100" id="role-bill">
+    <div class="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-outline-variant/30 pb-3 gap-2">
+        <div>
+            <h3 class="text-headline-md text-secondary font-bold">BILL</h3>
+            <p class="text-on-surface-variant font-mono text-xs uppercase tracking-wider mt-0.5">San Jose, CA</p>
+        </div>
+        <span class="text-[11px] font-mono text-secondary border border-secondary/20 bg-secondary/5 px-2.5 py-1 rounded whitespace-nowrap align-middle self-start">Feb 2026 — Present</span>
+    </div>
+
+    <div class="space-y-4">
+        <h4 class="text-white text-[16px] font-bold tracking-tight">Fraud Strategy Data Scientist</h4>
+        <ul class="list-none space-y-3.5 text-body-sm text-on-surface-variant pl-0">
+            <li class="relative pl-6"><span class="absolute left-0 text-primary font-mono font-bold">//</span>Reclaimed <span class="text-secondary font-bold">15+ hours</span> of weekly team capacity by engineering an automated AWS SageMaker/S3 metric pipeline with Python and SQL to eliminate coverage gaps.</li>
+            <li class="relative pl-6"><span class="absolute left-0 text-primary font-mono font-bold">//</span>Unlocked <span class="text-secondary font-bold">$50,000+</span> in annualized revenue (<span class="text-secondary font-bold">7% lift</span>) by tuning risk controls and back testing threshold optimizations with Optuna.</li>
+            <li class="relative pl-6"><span class="absolute left-0 text-primary font-mono font-bold">//</span>Informed proactive strategy shifts against new fraud vectors by developing an n8n fraud intelligence pipeline to automatically scrape and synthesize news on emerging risk trends.</li>
+            <li class="relative pl-6"><span class="absolute left-0 text-primary font-mono font-bold">//</span>Supported the development of a new decision engine by migrating legacy logic into a Databricks Feature Store.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="role-content space-y-6 transition-all duration-300 hidden opacity-0" id="role-sezzle">
+    <div class="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-outline-variant/30 pb-3 gap-2">
+        <div>
+            <h3 class="text-headline-md text-primary font-bold">Sezzle</h3>
+            <p class="text-on-surface-variant font-mono text-xs uppercase tracking-wider mt-0.5">Remote</p>
+        </div>
+        <span class="text-[11px] font-mono text-secondary border border-secondary/20 bg-secondary/5 px-2.5 py-1 rounded whitespace-nowrap align-middle self-start select-none">May 2021 — Feb 2026 (2 Promotions)</span>
+    </div>
+
+    <div class="relative pl-6 border-l border-outline-variant/40 ml-2.5 space-y-8 mt-4">
+        <div class="relative">
+            <div class="absolute -left-[30.5px] top-1.5 w-3 h-3 rounded-full bg-primary ring-4 ring-[#0b1326]"></div>
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                <h4 class="text-white text-[16px] font-bold tracking-tight">Fraud Risk Data Analyst</h4>
+                <span class="text-secondary font-mono text-[11px] uppercase tracking-wider">Oct 2024 — Feb 2026</span>
+            </div>
+            <ul class="list-none space-y-2 mt-2 text-body-sm text-on-surface-variant pl-0">
+                <li class="relative pl-6"><span class="absolute left-0 text-primary font-mono font-bold">//</span>Reduced fraud detection time by <span class="text-secondary font-bold">70%+</span> and monthly fraud losses by <span class="text-secondary font-bold">20%+</span> using SQL and dbt to auto-freeze high-risk users via cronjob.</li>
+                <li class="relative pl-6"><span class="absolute left-0 text-primary font-mono font-bold">//</span>Strengthened real-time fraud monitoring by creating <span class="text-secondary font-bold">10+</span> SQL alerts to detect and flag transaction anomalies.</li>
+                <li class="relative pl-6"><span class="absolute left-0 text-primary font-mono font-bold">//</span>Reduced fraud investigation times by <span class="text-secondary font-bold">2</span> hours per case by developing Python scripts that standardized the process by isolating key data and behavioral patterns.</li>
+                <li class="relative pl-6"><span class="absolute left-0 text-primary font-mono font-bold">//</span>Delivered cost savings of <span class="text-secondary font-bold">$30,000+</span> and enhanced fraud strategy by analyzing data from external fraud prevention vendors to recommend top-performing services and retire low-value features.</li>
+            </ul>
+        </div>
+        <div class="relative">
+            <div class="absolute -left-[30.5px] top-1.5 w-3 h-3 rounded-full bg-secondary ring-4 ring-[#0b1326]"></div>
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                <h4 class="text-white text-[16px] font-bold tracking-tight">Fraud Operations Analyst</h4>
+                <span class="text-secondary font-mono text-[11px] uppercase tracking-wider">Oct 2023 — Oct 2024</span>
+            </div>
+            <ul class="list-none space-y-2 mt-2 text-body-sm text-on-surface-variant pl-0">
+                <li class="relative pl-6"><span class="absolute left-0 text-secondary font-mono font-bold">//</span>Provided crucial data necessary for <span class="text-secondary font-bold">13</span> risk mitigation methods by documenting and presenting data of confirmed fraud (account takeover, stolen cards, card compromise, first-party) from investigations.</li>
+                <li class="relative pl-6"><span class="absolute left-0 text-secondary font-mono font-bold">//</span>Classified <span class="text-secondary font-bold">20,000+ </span> users by evaluating credit and fraud risks, providing training data for ML models.</li>
+                <li class="relative pl-6"><span class="absolute left-0 text-secondary font-mono font-bold">//</span>Reduced financial losses by <span class="text-secondary font-bold">$26,000+</span> by winning customer disputes and avoiding chargeback fees.</li>
+                <li class="relative pl-6"><span class="absolute left-0 text-secondary font-mono font-bold">//</span>Lowered average fraud inquiry resolution time by <span class="text-secondary font-bold">15%+</span> by interviewing, training, and mentoring 7 new hires.</li>
+            </ul>
+        </div>
+        <div class="relative">
+            <div class="absolute -left-[30.5px] top-1.5 w-3 h-3 rounded-full bg-primary ring-4 ring-[#0b1326]"></div>
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                <h4 class="text-white text-[16px] font-bold tracking-tight">Fraud Analyst Intern</h4>
+                <span class="text-secondary font-mono text-[11px] uppercase tracking-wider">Oct 2022 — Oct 2023</span>
+            </div>
+            <ul class="list-none space-y-2 mt-2 text-body-sm text-on-surface-variant pl-0">
+                <li class="relative pl-6"><span class="absolute left-0 text-primary font-mono font-bold">//</span>Received top performance rating in <span class="text-secondary font-bold">2</span> months by solving <span class="text-secondary font-bold">50+</span> tickets daily, reducing queue volume by <span class="text-secondary font-bold">70%+</span> YoY.</li>
+                <li class="relative pl-6"><span class="absolute left-0 text-primary font-mono font-bold">//</span>Identified a data anomaly using SQL that impacted <span class="text-secondary font-bold">40,000+</span> shoppers, enabling prompt incident resolution.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="role-content space-y-6 transition-all duration-300 hidden opacity-0" id="role-braathe">
+    <div class="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-outline-variant/30 pb-3 gap-2">
+        <div>
+            <h3 class="text-headline-md text-secondary font-bold">Braathe Enterprises</h3>
+            <p class="text-on-surface-variant font-mono text-xs uppercase tracking-wider mt-0.5">Saratoga Springs, NY</p>
+        </div>
+        <span class="text-[11px] font-mono text-secondary border border-secondary/20 bg-secondary/5 px-2.5 py-1 rounded whitespace-nowrap align-middle self-start">May 2021 — Sep 2021</span>
+    </div>
+
+    <div class="space-y-4">
+        <h4 class="text-white text-[16px] font-bold tracking-tight">Finance Intern</h4>
+        <ul class="list-none space-y-3.5 text-body-sm text-on-surface-variant pl-0">
+            <li class="relative pl-6"><span class="absolute left-0 text-primary font-mono font-bold">//</span>Promoted to a finance team co-lead within <span class="text-secondary font-bold">1 month</span> to co-manage new project ideas and <span class="text-secondary font-bold">12 team members</span>.</li>
+            <li class="relative pl-6"><span class="absolute left-0 text-primary font-mono font-bold">//</span>Analyzed <span class="text-secondary font-bold">30+ investment securities</span> and presented reports to provide recommendations for company portfolio.</li>
+        </ul>
+    </div>
+</div>
+    </section>
+
+    <section class="px-margin-mobile md:px-margin-desktop py-2xl bg-surface-container-low border-y border-outline-variant overflow-hidden relative" id="stack">
+        <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(#4edea3 1px, transparent 1px); background-size: 20px 20px;"></div>
+        <div class="mb-xl relative z-10">
+            <h2 class="text-headline-md text-on-surface border-l-4 border-secondary pl-4 uppercase font-semibold">SKILLS</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter relative z-10">
+            <div class="bg-background border border-outline-variant p-lg flex flex-col gap-6 rounded">
+                <div class="flex items-center gap-3">
+                    <h3 class="text-[16px] text-on-surface font-bold tracking-wider">LANGUAGES</h3>
+                </div>
+                <div class="grid grid-cols-3 gap-4 items-center justify-center">
+                    <div class="flex flex-col items-center justify-center h-20 p-2">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" class="h-12 w-auto object-contain">
+                    </div>
+                    <div class="flex flex-col items-center justify-center h-20 p-2">
+                        <img src="https://www.svgrepo.com/show/331760/sql-database-generic.svg" alt="SQL" class="h-12 w-auto object-contain">
+                    </div>
+                    <div class="flex flex-col items-center justify-center h-20 p-2">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg" alt="R Language" class="h-12 w-auto object-contain">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-background border border-outline-variant p-lg flex flex-col gap-6 rounded">
+                <div class="flex items-center gap-3">
+                    <h3 class="text-[16px] text-on-surface font-bold tracking-wider">DATA VISUALIZATION</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col items-center justify-center h-20 p-2">
+                        <img src="https://cdn.worldvectorlogo.com/logos/tableau-logo.svg" alt="Tableau" class="h-10 w-auto object-contain brightness-150">
+                    </div>
+                    <div class="flex flex-col items-center justify-center h-20 p-2">
+                        <img src="https://unpkg.com/simple-icons@v11/icons/powerbi.svg" alt="Power BI" class="h-10 w-auto object-contain" style="filter: invert(82%) sepia(61%) saturate(1284%) hue-rotate(341deg) brightness(102%) contrast(101%);">
+                    </div>
+                    <div class="flex flex-col items-center justify-center h-20 p-2">
+                        <img src="https://redash.io/assets/images/logo.png" alt="Redash" class="h-10 w-auto object-contain";>
+                    </div>
+                    <div class="flex flex-col items-center justify-center h-20 p-2">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Looker.svg/1280px-Looker.svg.png" alt="Looker" class="h-9 w-auto object-contain brightness-150">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-background border border-outline-variant p-lg flex flex-col gap-6 rounded">
+                <div class="flex items-center gap-3">
+                    <h3 class="text-[16px] text-on-surface font-bold tracking-wider">AI & AUTOMATION</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col items-center justify-center h-20 p-2">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/N8n-logo-new.svg" alt="n8n" class="h-9 w-auto object-contain" style="filter: invert(41%) sepia(93%) saturate(1352%) hue-rotate(334deg) brightness(91%) contrast(107%);">
+                    </div>
+                    <div class="flex flex-col items-center justify-center h-20 p-2">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Zapier_logo.svg/1280px-Zapier_logo.svg.png" alt="Zapier" class="h-8 w-auto object-contain" style="filter: invert(56%) sepia(76%) saturate(2337%) hue-rotate(344deg) brightness(101%) contrast(101%);">
+                    </div>
+                    <div class="flex flex-col items-center justify-center h-20 p-2">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Glean_logo.svg/3840px-Glean_logo.svg.png" alt="Glean AI" class="h-9 w-auto object-contain">
+                    </div>
+                    <div class="flex flex-col items-center justify-center h-20 p-2">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/NotebookLM_logo.svg/3840px-NotebookLM_logo.svg.png" alt="NotebookLM" class="h-10 w-auto object-contain" style="filter: brightness(0) invert(1);">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="px-margin-mobile md:px-margin-desktop py-2xl border-t border-outline-variant" id="education">
+        <div class="mb-xl">
+            <h2 class="text-headline-md text-on-surface border-l-4 border-primary pl-4 uppercase tracking-wider font-semibold">EDUCATION</h2>
+        </div>
+        <div class="w-full">
+            <div class="bg-surface-container border border-outline-variant p-lg rounded-lg w-full">
+                <div class="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-outline-variant/30 pb-3 gap-2">
+                    <div>
+                        <h3 class="text-headline-md text-primary font-bold">University of Southern California</h3>
+                        <p class="text-on-surface-variant font-mono text-xs uppercase tracking-wider mt-1">B.S. Business Administration - Magna Cum Laude</p>
+                    </div>
+                    <span class="text-[11px] font-mono text-secondary border border-secondary/20 bg-secondary/5 px-2.5 py-1 rounded whitespace-nowrap align-middle self-start">LOS ANGELES, CA</span>
+                </div>
+                <div class="mt-4">
+                    <p class="text-body-base text-on-surface-variant">Dual Specialization in Finance and Data Analytics</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="certifications" class="px-margin-mobile md:px-margin-desktop py-2xl border-t border-outline-variant relative w-full">
+        <div class="mb-xl">
+            <h2 class="text-headline-md text-on-surface border-l-4 border-secondary pl-4 uppercase tracking-wider font-semibold">CREDENTIALS</h2>
+        </div>
+
+        <div class="max-w-4xl mx-auto space-y-5">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 justify-items-center">
+                <div class="bg-surface-container border border-outline-variant p-5 rounded-lg flex flex-col justify-between items-center min-h-[250px] max-w-[280px] w-full transition-all duration-300 hover:border-primary/30">
+                    <div class="flex flex-col items-center w-full">
+                        <div class="w-16 h-16 bg-[#131b2e] border border-outline-variant/60 rounded-lg flex items-center justify-center p-3 mb-4">
+                            <img src="https://unpkg.com/simple-icons@v11/icons/dbt.svg" alt="dbt Labs" class="w-full h-full object-contain" style="filter: invert(41%) sepia(87%) saturate(1471%) hue-rotate(341deg) brightness(101%) contrast(101%);">
+                        </div>
+                        <h3 class="text-white text-[16px] font-bold text-center tracking-tight mb-0.5">dbt Fundamentals</h3>
+                        <p class="text-secondary text-[11px] font-mono font-semibold uppercase tracking-wider text-center mb-0.5">DBT LABS</p>
+                        <p class="text-on-surface-variant/50 font-mono text-xs text-center">Issued: Aug 2023</p>
+                    </div>
+                    <a href="https://credentials.getdbt.com/d638b1c3-abca-4343-a3c7-4641d793dac5#acc.aydrjY2G" target="_blank" class="w-full bg-[#131b2e]/60 border border-outline-variant py-1.5 rounded font-mono text-[11px] text-on-surface hover:text-primary hover:border-primary/40 transition-all text-center block tracking-wide mt-4">View certification</a>
+                </div>
+
+                <div class="bg-surface-container border border-outline-variant p-5 rounded-lg flex flex-col justify-between items-center min-h-[250px] max-w-[280px] w-full transition-all duration-300 hover:border-primary/30">
+                    <div class="flex flex-col items-center w-full">
+                        <div class="w-16 h-16 bg-[#131b2e] border border-outline-variant/60 rounded-lg flex items-center justify-center p-3 mb-4">
+                            <img src="https://framerusercontent.com/images/1mpc8M10X3J323dCmqnRE1itRs.png?width=2311&height=1766" alt="Maven Analytics" class="w-full h-full object-contain">
+                        </div>
+                        <h3 class="text-white text-[16px] font-bold text-center tracking-tight mb-0.5">Python Data Prep & EDA</h3>
+                        <p class="text-secondary text-[11px] font-mono font-semibold uppercase tracking-wider text-center mb-0.5">MAVEN ANALYTICS</p>
+                        <p class="text-on-surface-variant/50 font-mono text-xs text-center">Issued: Oct 2023</p>
+                    </div>
+                    <a href="https://certificates.mavenanalytics.io/66011c17-40bb-4a64-8f87-db0bc2ef8f75" target="_blank" class="w-full bg-[#131b2e]/60 border border-outline-variant py-1.5 rounded font-mono text-[11px] text-on-surface hover:text-primary hover:border-primary/40 transition-all text-center block tracking-wide mt-4">View certification</a>
+                </div>
+
+                <div class="bg-surface-container border border-outline-variant p-5 rounded-lg flex flex-col justify-between items-center min-h-[250px] max-w-[280px] w-full transition-all duration-300 hover:border-primary/30">
+                    <div class="flex flex-col items-center w-full">
+                        <div class="w-16 h-16 bg-[#131b2e] border border-outline-variant/60 rounded-lg flex items-center justify-center p-3 mb-4">
+                            <img src="https://unpkg.com/simple-icons@v11/icons/coursera.svg" alt="Coursera" class="w-full h-full object-contain" style="filter: invert(24%) sepia(91%) saturate(2236%) hue-rotate(199deg) brightness(92%) contrast(101%);">
+                        </div>
+                        <h3 class="text-white text-[16px] font-bold text-center tracking-tight mb-0.5">Apache Spark SQL</h3>
+                        <p class="text-secondary text-[11px] font-mono font-semibold uppercase tracking-wider text-center mb-0.5">COURSERA</p>
+                        <p class="text-on-surface-variant/50 font-mono text-xs text-center">Issued: Jul 2023</p>
+                    </div>
+                    <a href="https://www.coursera.org/account/accomplishments/certificate/PHG8Q9R7Y7GK" target="_blank" class="w-full bg-[#131b2e]/60 border border-outline-variant py-1.5 rounded font-mono text-[11px] text-on-surface hover:text-primary hover:border-primary/40 transition-all text-center block tracking-wide mt-4">View certification</a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-2xl mx-auto justify-items-center">
+                <div class="bg-surface-container border border-outline-variant p-5 rounded-lg flex flex-col justify-between items-center min-h-[250px] max-w-[280px] w-full transition-all duration-300 hover:border-primary/30">
+                    <div class="flex flex-col items-center w-full">
+                        <div class="w-16 h-16 bg-[#131b2e] border border-outline-variant/60 rounded-lg flex items-center justify-center p-3 mb-4">
+                            <img src="https://unpkg.com/simple-icons@v11/icons/coursera.svg" alt="Coursera" class="w-full h-full object-contain" style="filter: invert(24%) sepia(91%) saturate(2236%) hue-rotate(199deg) brightness(92%) contrast(101%);">
+                        </div>
+                        <h3 class="text-white text-[16px] font-bold text-center tracking-tight mb-0.5">Tableau Data Visualization</h3>
+                        <p class="text-secondary text-[11px] font-mono font-semibold uppercase tracking-wider text-center mb-0.5">COURSERA</p>
+                        <p class="text-on-surface-variant/50 font-mono text-xs text-center">Issued: Jul 2023</p>
+                    </div>
+                    <a href="https://www.coursera.org/account/accomplishments/specialization/certificate/R94LUWXWW2ZJ" target="_blank" class="w-full bg-[#131b2e]/60 border border-outline-variant py-1.5 rounded font-mono text-[11px] text-on-surface hover:text-primary hover:border-primary/40 transition-all text-center block tracking-wide mt-4">View certification</a>
+                </div>
+
+                <div class="bg-surface-container border border-outline-variant p-5 rounded-lg flex flex-col justify-between items-center min-h-[250px] max-w-[280px] w-full transition-all duration-300 hover:border-primary/30">
+                    <div class="flex flex-col items-center w-full">
+                        <div class="w-16 h-16 bg-[#131b2e] border border-outline-variant/60 rounded-lg flex items-center justify-center p-3 mb-4">
+                            <img src="https://unpkg.com/simple-icons@v11/icons/coursera.svg" alt="Coursera" class="w-full h-full object-contain" style="filter: invert(24%) sepia(91%) saturate(2236%) hue-rotate(199deg) brightness(92%) contrast(101%);">
+                        </div>
+                        <h3 class="text-white text-[16px] font-bold text-center tracking-tight mb-0.5">Google Data Analytics</h3>
+                        <p class="text-secondary text-[11px] font-mono font-semibold uppercase tracking-wider text-center mb-0.5">COURSERA</p>
+                        <p class="text-on-surface-variant/50 font-mono text-xs text-center">Issued: Jul 2023</p>
+                    </div>
+                    <a href="https://www.coursera.org/account/accomplishments/specialization/certificate/2P6DZ4Z72T7V" target="_blank" class="w-full bg-[#131b2e]/60 border border-outline-variant py-1.5 rounded font-mono text-[11px] text-on-surface hover:text-primary hover:border-primary/40 transition-all text-center block tracking-wide mt-4">View certification</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="w-full bg-surface-container-lowest border-t border-outline-variant mt-2xl">
+    <div class="w-full h-16 px-6 md:px-margin-desktop flex items-center justify-end">
+        <nav class="flex items-center gap-8">
+            <a class="text-on-surface-variant font-label-caps hover:text-secondary transition-colors duration-200" href="https://linkedin.com/in/edwardalau/" target="_blank">LINKEDIN</a>
+            <a class="text-on-surface-variant font-label-caps hover:text-secondary transition-colors duration-200" href="https://public.tableau.com/app/profile/elau" target="_blank">TABLEAU</a>
+            <a class="text-on-surface-variant font-label-caps hover:text-secondary transition-colors duration-200" href="Edward_Lau_Resume.pdf" target="_blank">RESUME</a>
+        </nav>
+    </div>
+</footer>
+
+<script>
+    document.querySelectorAll('.experience-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.experience-tab').forEach(t => {
+                t.setAttribute('aria-selected', 'false');
+                t.className = "experience-tab flex items-center p-4 rounded-lg cursor-pointer transition-all duration-300 bg-surface-container-low border border-outline-variant/20 text-on-surface-variant hover:bg-surface-container";
+                
+                const sub = t.querySelector('.tab-subtitle');
+                if (sub) {
+                    sub.classList.remove('text-on-tertiary/80');
+                    sub.classList.add('text-secondary');
+                }
+            });
+            
+            tab.setAttribute('aria-selected', 'true');
+            tab.className = "experience-tab flex items-center p-4 rounded-lg cursor-pointer transition-all duration-300 bg-tertiary border border-tertiary text-on-tertiary";
+            
+            const activeSub = tab.querySelector('.tab-subtitle');
+            if (activeSub) {
+                activeSub.classList.remove('text-secondary');
+                activeSub.classList.add('text-on-tertiary/80');
+            }
+            
+            const target = tab.getAttribute('data-target');
+            document.querySelectorAll('.role-content').forEach(content => {
+                if(content.id === target) {
+                    content.classList.remove('hidden', 'opacity-0');
+                    content.classList.add('block', 'opacity-100');
+                } else {
+                    content.classList.remove('block', 'opacity-100');
+                    content.classList.add('hidden', 'opacity-0');
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
